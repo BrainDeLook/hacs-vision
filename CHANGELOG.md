@@ -1,5 +1,12 @@
 # Changelog
 
+## v6.5.5 (2026-08-02) — XSS 安全修复 / XSS Security Fix
+
+### 🛡️ 安全 (Security)
+
+- **修复 README XSS 漏洞 (V-003, HIGH)** — 后端获取 GitHub 渲染的 README HTML 后经过 DOMPurify 消毒再返回前端，防止恶意仓库作者注入脚本。感谢 @anupamme 的贡献
+- **Fixed README XSS vulnerability (V-003, HIGH)** — Backend now sanitizes GitHub's rendered README HTML via DOMPurify before returning to the frontend, preventing malicious repository authors from injecting scripts. Thanks to @anupamme for the contribution
+
 ## v6.4.3 (2026-07-16) — 服务补全 & 可移植性优化
 
 ### ✨ 改进

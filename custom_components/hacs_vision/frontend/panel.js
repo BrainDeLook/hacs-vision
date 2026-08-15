@@ -4119,8 +4119,18 @@ const w=globalThis,k=e=>e,$=w.trustedTypes,S=$?$.createPolicy("lit-html",{create
     .setting-control select:focus, .setting-control input:focus {
       border-color: var(--primary-color, #03a9f4); outline: none;
     }
-    .readme-lang-options { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
-    .lang-check { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; font-size: 13px; }
+    .setting-row.stacked {
+      display: block;
+    }
+    .setting-row.stacked .setting-control {
+      width: 100%; margin: 10px 0 0; box-sizing: border-box;
+    }
+    .readme-lang-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+      gap: 10px 14px; align-items: center;
+    }
+    .lang-check { display: inline-flex; align-items: center; gap: 5px; min-width: 0; cursor: pointer; font-size: 13px; }
     .lang-check input { min-width: auto; margin: 0; cursor: pointer; }
 
     /* Toggle switch */
@@ -4141,10 +4151,12 @@ const w=globalThis,k=e=>e,$=w.trustedTypes,S=$?$.createPolicy("lit-html",{create
     .toggle input:checked + .slider::before { transform: translateX(20px); }
 
     .action-grid {
-      display: flex; flex-wrap: wrap; gap: 8px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      gap: 8px;
     }
     .action-grid .btn {
-      flex: 1; min-width: 100px;
+      min-width: 0; width: 100%; white-space: normal; line-height: 1.25;
       display: flex; align-items: center; justify-content: center; gap: 5px;
       padding: 8px 10px; font-size: 12px;
     }
@@ -4527,7 +4539,7 @@ const w=globalThis,k=e=>e,$=w.trustedTypes,S=$?$.createPolicy("lit-html",{create
               </div>
               <div class="setting-control">
                 <select @change=${e=>this._onLanguageChange(e.target.value)}
-                  .value=${this._settings.language||ke()}>
+                  .value=${ke()}>
                   ${Object.keys(be).map(e=>({code:e,label:be[e].label,nativeLabel:be[e].nativeLabel})).map(e=>B`
                     <option value=${e.code}>${e.nativeLabel} (${e.label})</option>
                   `)}
@@ -4549,7 +4561,7 @@ const w=globalThis,k=e=>e,$=w.trustedTypes,S=$?$.createPolicy("lit-html",{create
                 </select>
               </div>
             </div>
-            <div class="setting-row">
+            <div class="setting-row stacked">
               <div class="setting-info">
                 <div class="label">${_e("readmeTranslateLangs")}</div>
                 <div class="desc">${_e("readmeTranslateLangsDesc")}</div>

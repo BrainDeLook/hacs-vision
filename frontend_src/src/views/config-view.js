@@ -996,10 +996,11 @@ class ConfigView extends LitElement {
                 <div class="label">${t('settingsLanguage')}</div>
               </div>
               <div class="setting-control">
-                <select @change=${e => this._onLanguageChange(e.target.value)}
-                  .value=${getLang()}>
+                <select @change=${e => this._onLanguageChange(e.target.value)}>
                   ${getAvailableLanguages().map(lang => html`
-                    <option value=${lang.code}>${lang.nativeLabel} (${lang.label})</option>
+                    <option value=${lang.code} ?selected=${getLang() === lang.code}>
+                      ${lang.nativeLabel} (${lang.label})
+                    </option>
                   `)}
                 </select>
               </div>

@@ -4538,10 +4538,11 @@ const w=globalThis,k=e=>e,$=w.trustedTypes,S=$?$.createPolicy("lit-html",{create
                 <div class="label">${_e("settingsLanguage")}</div>
               </div>
               <div class="setting-control">
-                <select @change=${e=>this._onLanguageChange(e.target.value)}
-                  .value=${ke()}>
+                <select @change=${e=>this._onLanguageChange(e.target.value)}>
                   ${Object.keys(be).map(e=>({code:e,label:be[e].label,nativeLabel:be[e].nativeLabel})).map(e=>B`
-                    <option value=${e.code}>${e.nativeLabel} (${e.label})</option>
+                    <option value=${e.code} ?selected=${ke()===e.code}>
+                      ${e.nativeLabel} (${e.label})
+                    </option>
                   `)}
                 </select>
               </div>

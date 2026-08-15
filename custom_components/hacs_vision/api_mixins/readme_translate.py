@@ -33,6 +33,7 @@ SUPPORTED_TRANSLATION_LANGS = {
     "zh": "Chinese (中文)",
     "en": "English",
     "de": "German (Deutsch)",
+    "ru": "Russian (Русский)",
 }
 
 # The built-in command router is not an LLM translator — exclude from the picker.

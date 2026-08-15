@@ -12,11 +12,14 @@
  * Priority: _USER_LANG > _HA_LANG > 'en' (fallback)
  */
 
+import { RU_TRANSLATIONS } from './i18n.ru.js';
+
 /* ── Language Mapping ──────────────────────────────────── */
 
 const LANG_MAP = {
   zh: 'zh', 'zh-cn': 'zh', 'zh-hans': 'zh', 'zh-hant': 'zh', 'zh-tw': 'zh', 'zh-hk': 'zh',
   de: 'de', 'de-de': 'de', 'de-at': 'de', 'de-ch': 'de',
+  ru: 'ru', 'ru-ru': 'ru', 'ru-by': 'ru', 'ru-kz': 'ru', 'ru-kg': 'ru',
   en: 'en', 'en-us': 'en', 'en-gb': 'en', 'en-au': 'en', 'en-ca': 'en',
 };
 
@@ -73,6 +76,7 @@ export const LANGUAGES = {
   en: { label: 'English', nativeLabel: 'English' },
   zh: { label: 'Chinese', nativeLabel: '中文' },
   de: { label: 'German', nativeLabel: 'Deutsch' },
+  ru: { label: 'Russian', nativeLabel: 'Русский' },
 };
 
 // Languages offered for README translation. `code` is sent to the backend;
@@ -82,12 +86,13 @@ export const TRANSLATION_LANGUAGES = [
   { code: 'zh', key: 'readmeLangZh' },
   { code: 'en', key: 'readmeLangEn' },
   { code: 'de', key: 'readmeLangDe' },
+  { code: 'ru', key: 'readmeLangRu' },
   { code: 'ja', key: 'readmeLangJa' },
   { code: 'ko', key: 'readmeLangKo' },
 ];
 
 // Default set shown in the popup bar when the user hasn't configured any.
-export const DEFAULT_TRANSLATION_LANGS = ['zh', 'en', 'de'];
+export const DEFAULT_TRANSLATION_LANGS = ['zh', 'en', 'de', 'ru'];
 
 /* ── Translation Data ──────────────────────────────────── */
 
@@ -359,6 +364,7 @@ const T = {
   readmeLangZh: { zh: '中文', en: 'Chinese', de: 'Chinesisch' },
   readmeLangEn: { zh: '英文', en: 'English', de: 'Englisch' },
   readmeLangDe: { zh: '德文', en: 'German', de: 'Deutsch' },
+  readmeLangRu: { zh: '俄文', en: 'Russian', de: 'Russisch' },
   readmeTranslateNoAgent: { zh: '请先在设置中选择「README 翻译 AI」', en: 'Select a "README Translation AI" in settings first', de: 'Wähle zuerst eine "README-Übersetzung (KI)" in den Einstellungen' },
   readmeTranslateUnsupported: { zh: '不支持的目标语言', en: 'Unsupported target language', de: 'Nicht unterstützte Zielsprache' },
   readmeTranslateRateLimited: { zh: '翻译请求过于频繁，请稍后再试', en: 'Too many translation requests — try again later', de: 'Zu viele Übersetzungsanfragen — später erneut' },
@@ -818,6 +824,9 @@ const T = {
   previewLoading: { zh: '正在加载插件...', en: 'Loading plugin...', de: 'Plugin wird geladen...' },
   previewNoRepo: { zh: '未指定仓库', en: 'No repository specified', de: 'Kein Repository angegeben' },
   previewNoJs: { zh: '未找到插件 JS 文件', en: 'Plugin JS file not found', de: 'Plugin-JS-Datei nicht gefunden' },
+  previewNoCard: { zh: '此插件未注册自定义卡片。JS 已加载，但未通过 window.customCards 注册。', en: 'No custom card registered by this plugin. The JS loaded but did not register via window.customCards.', de: 'Dieses Plugin hat keine benutzerdefinierte Karte registriert. Das JS wurde geladen, aber nicht über window.customCards registriert.' },
+  previewRenderFailed: { zh: '卡片渲染失败：', en: 'Failed to render card:', de: 'Karte konnte nicht gerendert werden:' },
+  previewJsLoadFailed: { zh: '无法从 GitHub 加载插件 JS。文件可能不在预期路径中。', en: 'Failed to load plugin JS from GitHub. The file may not exist at the expected path.', de: 'Plugin-JS konnte nicht von GitHub geladen werden. Die Datei befindet sich möglicherweise nicht am erwarteten Pfad.' },
 };
 
 /* ── Translation Lookup ─────────────────────────────────── */
@@ -832,7 +841,8 @@ export function t(key, params) {
   const entry = T[key];
   if (!entry) return key;
   const lang = _USER_LANG || _LANG || 'en';
-  let text = entry[lang] || entry.en || key;
+  let text = lang === 'ru' ? RU_TRANSLATIONS[key] : entry[lang];
+  text = text || entry.en || key;
   if (params) {
     for (const [k, v] of Object.entries(params)) {
       text = text.split(`{${k}}`).join(v);
@@ -860,7 +870,7 @@ export function setLangFromHass(hass) {
 /**
  * Set language by user choice (from settings UI).
  * Pass null/empty to clear override and fall back to HA auto-detect.
- * @param {string|null} lang - Language code ('en', 'zh', 'de', or null/'' for auto)
+ * @param {string|null} lang - Language code ('en', 'zh', 'de', 'ru', or null/'' for auto)
  */
 export function setLang(lang) {
   if (lang && LANGUAGES[lang]) {

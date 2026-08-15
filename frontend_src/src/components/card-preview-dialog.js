@@ -115,6 +115,12 @@ class CardPreviewDialog extends LitElement {
 
   _buildIframeSrc(fullName, branch, jsUrl) {
     // Build a self-contained HTML page that loads the plugin and renders it
+    const messages = JSON.stringify({
+      loading: t('previewLoading'),
+      noCard: t('previewNoCard'),
+      renderFailed: t('previewRenderFailed'),
+      jsLoadFailed: t('previewJsLoadFailed'),
+    }).replace(/</g, '\\u003c');
     const html = `<!DOCTYPE html>
 <html>
 <head>
@@ -142,9 +148,10 @@ class CardPreviewDialog extends LitElement {
 </style>
 </head>
 <body>
-<div id="card-container"><div class="loading">Loading plugin...</div></div>
+<div id="card-container"><div class="loading">${t('previewLoading')}</div></div>
 
 <script>
+const PREVIEW_I18N = ${messages};
 // ── Mock hass object with sample entities ──
 const MOCK_HASS = {
   language: 'zh-Hans',
@@ -238,7 +245,7 @@ script.onload = function() {
     // Find registered card name
     const cards = window.customCards || [];
     if (cards.length === 0) {
-      container.innerHTML = '<div class="error">No custom card registered by this plugin.<br>The JS loaded but did not register via window.customCards.</div>';
+      container.innerHTML = '<div class="error">' + PREVIEW_I18N.noCard + '</div>';
       return;
     }
 
@@ -294,14 +301,14 @@ script.onload = function() {
       // Signal success
       window.parent.postMessage({ type: 'hacs-preview-ready', cardName: card.name }, '*');
     } catch (e) {
-      container.innerHTML = '<div class="error">Failed to render card:<br><pre>' + e.message + '</pre></div>';
+      container.innerHTML = '<div class="error">' + PREVIEW_I18N.renderFailed + '<br><pre>' + e.message + '</pre></div>';
       window.parent.postMessage({ type: 'hacs-preview-error', error: e.message }, '*');
     }
   }, 500); // Wait for element registration
 };
 script.onerror = function() {
   document.getElementById('card-container').innerHTML =
-    '<div class="error">Failed to load plugin JS from GitHub.<br>The file may not exist at the expected path.</div>';
+    '<div class="error">' + PREVIEW_I18N.jsLoadFailed + '</div>';
   window.parent.postMessage({ type: 'hacs-preview-error', error: 'Failed to load JS' }, '*');
 };
 document.head.appendChild(script);

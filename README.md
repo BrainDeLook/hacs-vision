@@ -10,6 +10,7 @@
 [![中文](https://img.shields.io/badge/lang-zh--CN-blue.svg)](#)
 [![English](https://img.shields.io/badge/lang-en-red.svg)](README.en.md)
 [![Deutsch](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
+[![Русский](https://img.shields.io/badge/lang-ru-blue.svg)](README.ru.md)
 
 > **当前版本**: v6.5.5 | **最低 HA 版本**: 2024.1.0
 

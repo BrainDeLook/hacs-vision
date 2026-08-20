@@ -10,6 +10,7 @@
 [![English](https://img.shields.io/badge/lang-en-red.svg)](#)
 [![中文](https://img.shields.io/badge/lang-zh--CN-blue.svg)](README.md)
 [![Deutsch](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
+[![Русский](https://img.shields.io/badge/lang-ru-blue.svg)](README.ru.md)
 
 > **Current version**: v6.5.5 | **Minimum HA**: 2024.1.0
 
